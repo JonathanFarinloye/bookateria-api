@@ -2,6 +2,8 @@ from django.utils import timezone
 from rest_framework.viewsets import ModelViewSet
 from .serializers import *
 from django.contrib.auth import get_user_model
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 # Create your views here.
 User = get_user_model()
 
@@ -9,6 +11,10 @@ User = get_user_model()
 class DocumentView(ModelViewSet):
     serializer_class = DocumentSerializer
     queryset = Document.objects.all().order_by('id')
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ('typology',)
+    search_fields = ('title', 'author', 'description', 'tags__name')
+    ordering_fields = ('downloads', 'size', 'title', 'id', 'upload_date')
 
     def perform_create(self, serializer):
         tags = []
