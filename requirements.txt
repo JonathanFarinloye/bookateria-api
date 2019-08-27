@@ -13,3 +13,4 @@ social_auth_app_django
 djangorestframework
 markdown
 django-filter
+drf-yasg
