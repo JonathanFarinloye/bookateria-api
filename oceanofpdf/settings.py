@@ -44,7 +44,9 @@ INSTALLED_APPS = [
     'storages',
     'social_django',
     'users',
-    'rest_framework'
+    'rest_framework',
+    'django_filters',
+    'drf_yasg'
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -174,11 +176,11 @@ MEDIA_URL = '/media/'
 #
 # AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
-LOGIN_URL = config('LOGIN_URL')
-
-LOGOUT_URL = config('LOGOUT_URL')
-
-LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
+# LOGIN_URL = config('LOGIN_URL')
+# 
+# LOGOUT_URL = config('LOGOUT_URL')
+#
+# LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 
@@ -189,6 +191,7 @@ SOCIAL_AUTH_TWITTER_KEY = config('SOCIAL_AUTH_TWITTER_KEY')
 SOCIAL_AUTH_TWITTER_SECRET = config('SOCIAL_AUTH_TWITTER_SECRET')
 
 REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
 }
