@@ -1,0 +1,15 @@
+Django
+django-storages
+Pillow
+gunicorn
+whitenoise
+psycopg2-binary
+postgres
+pytz
+python-decouple
+dj_static
+boto3
+social_auth_app_django
+djangorestframework
+markdown
+django-filter
