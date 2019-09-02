@@ -25,8 +25,8 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG') == 'True'
 
 ALLOWED_HOSTS = [
-    'www.bookateria.net',
-    'bookateria.net',
+    'www.api.bookateria.net',
+    'api.bookateria.net',
     '127.0.0.1',
     'localhost'
 ]
