@@ -13,5 +13,6 @@ social_auth_app_django
 djangorestframework
 markdown
 django-filter
+djangorestframework_simplejwt
 drf-yasg
 packaging
