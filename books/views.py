@@ -4,6 +4,7 @@ from .serializers import *
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 # Create your views here.
 User = get_user_model()
 
@@ -15,6 +16,7 @@ class DocumentView(ModelViewSet):
     filterset_fields = ('typology',)
     search_fields = ('title', 'author', 'description', 'tags__name')
     ordering_fields = ('downloads', 'size', 'title', 'id', 'upload_date')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
         tags = []

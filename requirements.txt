@@ -16,3 +16,4 @@ django-filter
 djangorestframework_simplejwt
 drf-yasg
 packaging
+django-cors-headers
