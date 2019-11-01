@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'storages',
     'social_django',
     'users',
+    'forum',
     'rest_framework',
     'django_filters',
     'drf_yasg',

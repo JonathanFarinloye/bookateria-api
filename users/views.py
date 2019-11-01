@@ -15,10 +15,3 @@ class UserView(ModelViewSet):
     search_fields = ('username', 'first_name', 'last_name', 'email')
     ordering_fields = ('id', 'username', 'first_name', 'last_name', 'email')
     http_method_names = ('get', 'post')
-
-
-class LogoutView(APIView):
-    def post(self, request):
-        token = RefreshToken(request.META.get('HTTP_AUTHORIZATION').split(' ')[1])
-        token.blacklist()
-        return Response(status=status.HTTP_200_OK)

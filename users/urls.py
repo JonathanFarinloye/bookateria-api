@@ -6,7 +6,7 @@ router = routers.DefaultRouter()
 
 router.register('all', UserView)
 
-urlpatterns = [
-    path('logout/', LogoutView.as_view())
-]
-urlpatterns += router.urls
+# urlpatterns = [
+#     path('logout/', LogoutView.as_view())
+# ]
+urlpatterns = router.urls
