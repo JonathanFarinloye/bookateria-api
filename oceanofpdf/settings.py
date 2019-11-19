@@ -45,12 +45,13 @@ INSTALLED_APPS = [
     'storages',
     'social_django',
     'users',
+    'forum',
     'rest_framework',
     'django_filters',
     'drf_yasg',
     'corsheaders',
-    'rest_framework_simplejwt',
-    'rest_framework_simplejwt.token_blacklist',
+    'rest_framework.authtoken',
+    'knox'
 ]
 
 CORS_ORIGIN_WHITELIST = [
@@ -191,9 +192,9 @@ MEDIA_URL = '/media/'
 #
 # AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
-# LOGIN_URL = config('LOGIN_URL')
-# 
-# LOGOUT_URL = config('LOGOUT_URL')
+LOGIN_URL = config('LOGIN_URL')
+
+LOGOUT_URL = config('LOGOUT_URL')
 #
 # LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
 
@@ -207,16 +208,9 @@ SOCIAL_AUTH_TWITTER_SECRET = config('SOCIAL_AUTH_TWITTER_SECRET')
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'knox.auth.TokenAuthentication',
     ),
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10
-}
-
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(hours=6),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-    'BLACKLIST_AFTER_ROTATION': True,
 }
