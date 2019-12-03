@@ -13,7 +13,7 @@ social_auth_app_django
 djangorestframework
 markdown
 django-filter
-djangorestframework_simplejwt
+django-rest-knox
 drf-yasg
 packaging
 django-cors-headers
