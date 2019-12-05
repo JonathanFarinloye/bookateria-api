@@ -18,7 +18,7 @@ class Question(models.Model):
     tags = models.ManyToManyField(QuestionTags)
     accepted_answer = models.ForeignKey('Answer', related_name='accepted', null=True, on_delete=models.CASCADE)
     user = models.ForeignKey(User, related_name='question', on_delete=models.PROTECT)
-    up_votes = models.IntegerField(default=0)
+    up_votes = models.ManyToManyField(User, related_name='q_up_voters', through='QUpVotes')
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -28,10 +28,19 @@ class Question(models.Model):
 class Answer(models.Model):
     question = models.ForeignKey(Question, related_name='question', on_delete=models.CASCADE)
     answer = models.TextField()
-    up_votes = models.IntegerField(default=0)
-    user = models.ForeignKey(User, related_name='answer', on_delete=models.PROTECT)
+    up_votes = models.ManyToManyField(User, related_name='a_up_voters', through='AUpVotes')
     date_created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, related_name='answer', on_delete=models.PROTECT)
 
     def __str__(self):
         return 'Answer to - ' + self.question.__str__()
 
+
+class QUpVotes(models.Model):
+    question = models.ForeignKey(Question, related_name='question_up_votes', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='question_voters', on_delete=models.CASCADE)
+
+
+class AUpVotes(models.Model):
+    question = models.ForeignKey(Answer, related_name='answer_up_votes', on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='answer_voters', on_delete=models.CASCADE)
