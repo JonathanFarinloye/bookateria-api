@@ -1,5 +1,5 @@
 from django.utils import timezone
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from .serializers import *
 from django.contrib.auth import get_user_model
 from django_filters.rest_framework import DjangoFilterBackend
@@ -37,11 +37,13 @@ class DocumentView(ModelViewSet):
         serializer.save(uploader=self.request.user, upload_date=timezone.datetime.now(), tags=tags)
 
 
-class TypeView(ModelViewSet):
+class TypeView(ReadOnlyModelViewSet):
     serializer_class = TypeSerializer
     queryset = Type.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class TagView(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
