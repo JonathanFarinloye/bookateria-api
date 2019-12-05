@@ -22,3 +22,14 @@ class AnswerSerializer(ModelSerializer):
         fields = '__all__'
         read_only_fields = ('date_created', 'up_votes', 'user')
 
+
+class QUpVotesSerializer(ModelSerializer):
+    class Meta:
+        model = QUpVotes
+        fields = '__all__'
+
+
+class AUpVotesSerializer(ModelSerializer):
+    class Meta:
+        model = AUpVotes
+        fields = '__all__'
