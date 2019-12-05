@@ -15,12 +15,6 @@ class QuestionView(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    def perform_update(self, serializer):
-        if self.request.data['up_votes']:
-            question = Question.objects.get(pk=self.request.data['question'])
-            question.up_votes += 1
-            question.save()
-
 
 class QuestionTagView(ModelViewSet):
     serializer_class = QuestionTagSerializer
@@ -36,12 +30,12 @@ class AnswerView(ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-    def perform_update(self, serializer):
-        if self.request.data['up_votes']:
-            answer = Answer.objects.get(pk=self.request.data['answer'])
-            answer.up_votes += 1
-            if self.request.user == answer.question.user:
-                answer.question.accepted_answer = answer
-            answer.save()
+
+class QUpVotesView(ModelViewSet):
+    serializer_class = QUpVotesSerializer
+    queryset = QUpVotes.objects.all()
 
 
+class AUpVotesView(ModelViewSet):
+    serializer_class = AUpVotesSerializer
+    queryset = AUpVotes.objects.all()

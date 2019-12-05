@@ -40,8 +40,10 @@ class DocumentView(ModelViewSet):
 class TypeView(ReadOnlyModelViewSet):
     serializer_class = TypeSerializer
     queryset = Type.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class TagView(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
