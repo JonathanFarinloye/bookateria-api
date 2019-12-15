@@ -78,3 +78,13 @@ class Tag(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Request(models.Model):
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
+    category = models.ForeignKey(Type, related_name='request_category', on_delete=models.PROTECT)
+    description = models.TextField(help_text='Anything to help find the document')
+
+    def __str__(self):
+        return self.title

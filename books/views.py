@@ -47,3 +47,9 @@ class TagView(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all().order_by('id')
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class RequestView(ModelViewSet):
+    serializer_class = RequestSerializer
+    queryset = Request.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
