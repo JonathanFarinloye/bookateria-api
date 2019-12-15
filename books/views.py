@@ -19,22 +19,22 @@ class DocumentView(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        tags = []
-        for x in self.request.POST.getlist('tags'):
-            if Tag.objects.filter(pk=x).exists():
-                tag = Tag.objects.get(pk=x)
-                tags.append(tag)
-            else:
-                new_list = self.request.POST.get('tags').split(',').strip()
-                for i in new_list:
-                    Tag.objects.create(name=i)
-                    tag = Tag.objects.get(name__iexact=i)
-                    tags.append(tag)
-        user = User.objects.get(pk=self.request.user.pk)
-        user.profile.points += 6
-        user.profile.save()
-        print(tags)
-        serializer.save(uploader=self.request.user, upload_date=timezone.datetime.now(), tags=tags)
+        # tags = []
+        # for x in self.request.POST.getlist('tags'):
+        #     if Tag.objects.filter(pk=x).exists():
+        #         tag = Tag.objects.get(pk=x)
+        #         tags.append(tag)
+        #     else:
+        #         new_list = self.request.POST.get('tags').split(',').strip()
+        #         for i in new_list:
+        #             Tag.objects.create(name=i)
+        #             tag = Tag.objects.get(name__iexact=i)
+        #             tags.append(tag)
+        # user = User.objects.get(pk=self.request.user.pk)
+        # user.profile.points += 6
+        # user.profile.save()
+        # print(tags)
+        serializer.save(uploader=self.request.user, upload_date=timezone.datetime.now())
 
 
 class TypeView(ReadOnlyModelViewSet):
@@ -46,4 +46,10 @@ class TypeView(ReadOnlyModelViewSet):
 class TagView(ModelViewSet):
     serializer_class = TagSerializer
     queryset = Tag.objects.all().order_by('id')
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+
+class RequestView(ModelViewSet):
+    serializer_class = RequestSerializer
+    queryset = Request.objects.all().order_by('id')
     permission_classes = [IsAuthenticatedOrReadOnly]
