@@ -56,12 +56,16 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_WHITELIST = [
     'https://bookateria.net',
-    'https://www.bookateria.net'
+    'https://www.bookateria.net',
+    'https://bookateria.netlify.com',
+    'localhost'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'bookateria.net',
-    'www.bookateria.net'
+    'www.bookateria.net',
+    'bookateria.netlify.com',
+    'localhost'
 ]
 
 AUTH_USER_MODEL = 'users.User'
