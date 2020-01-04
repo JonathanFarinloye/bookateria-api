@@ -6,6 +6,7 @@ router = routers.DefaultRouter()
 router.register('all', DocumentView)
 router.register('categories', TypeView)
 router.register('tags', TagView)
+router.register('requests', RequestView)
 
 
 urlpatterns = router.urls
