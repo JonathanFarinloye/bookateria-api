@@ -56,12 +56,16 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_WHITELIST = [
     'https://bookateria.net',
-    'https://www.bookateria.net'
+    'https://www.bookateria.net',
+    'https://bookateria.netlify.com',
+    'localhost'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'bookateria.net',
-    'www.bookateria.net'
+    'www.bookateria.net',
+    'bookateria.netlify.com',
+    'localhost'
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -182,20 +186,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = '/media/'
 
-# DEFAULT_FILE_STORAGE = 'oceanofpdf.storages_backends.MediaStorage'
-#
-# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-#
-# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-#
-# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
-#
-# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+DEFAULT_FILE_STORAGE = 'oceanofpdf.storages_backends.MediaStorage'
+
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
 
 LOGIN_URL = config('LOGIN_URL')
 
 LOGOUT_URL = config('LOGOUT_URL')
-#
+
 # LOGIN_REDIRECT_URL = config('LOGIN_REDIRECT_URL')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
