@@ -189,7 +189,7 @@ DEFAULT_FILE_STORAGE = 'oceanofpdf.storages_backends.MediaStorage'
 
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
-AWS_S3_CUSTOM_DOMAIN = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
 
 MEDIA_URL = f'{AWS_S3_CUSTOM_DOMAIN}/media/'
 
