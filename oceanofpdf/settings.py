@@ -58,7 +58,7 @@ CORS_ORIGIN_WHITELIST = [
     'https://bookateria.net',
     'https://www.bookateria.net',
     'https://bookateria.netlify.com',
-    'localhost'
+    'http://localhost'
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -184,13 +184,14 @@ STATIC_URL = os.path.join(BASE_DIR, 'res/')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-MEDIA_URL = '/media/'
 
 DEFAULT_FILE_STORAGE = 'oceanofpdf.storages_backends.MediaStorage'
 
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
 
-AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_CUSTOM_DOMAIN = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+MEDIA_URL = f'{AWS_S3_CUSTOM_DOMAIN}/media/'
 
 AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
 
