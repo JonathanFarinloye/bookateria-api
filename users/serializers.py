@@ -57,6 +57,37 @@ class LoginSerializer(serializers.Serializer):
 
     def validate(self, data):
         user = authenticate(**data)
-        if user and user.is_active:
-            return user
-        raise serializers.ValidationError("Incorrect Credentials")
+
+        username = data.get('username')
+        password = data.get('password')
+
+        if username and password:
+            if User.objects.filter(username=username).exists():
+                user = authenticate(request=self.context.get('request'), username=username, password=password)
+            else:
+                error = {
+                    'status': False,
+                    'message': 'User does not exist'
+                }
+                raise serializers.ValidationError(error)
+
+            if not user:
+                error = {
+                    'status': False,
+                    'message': 'Invalid Credentials'
+                }
+
+                raise serializers.ValidationError(error, code='authorization')
+
+        else:
+            error = {
+                'status': False,
+                'message': 'Details not found in request'
+            }
+            raise serializers.ValidationError(error, code='authorization')
+
+        data['user'] = user
+        return data['user']
+        # if user and user.is_active:
+        #     return user
+        # raise serializers.ValidationError("Wrong Credentials")
