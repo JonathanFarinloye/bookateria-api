@@ -23,7 +23,7 @@ class Document(models.Model):
     image = models.ImageField(upload_to='images/', blank=True)
     pdf = models.FileField(upload_to=path_and_rename)
     uploader = models.ForeignKey(User, on_delete=models.PROTECT)
-    slug = models.SlugField(max_length=255)
+    # slug = models.SlugField(max_length=255)
     tags = models.ManyToManyField('Tag', blank=True)
     typology = models.ForeignKey('Type', on_delete=models.PROTECT, null=True)
 
@@ -50,11 +50,14 @@ class Document(models.Model):
             message = str(fsize) + ' Mb'
         return message
 
-    def summary(self):
-        return self.description[:100]
+    def all_tags(self):
+        tag_list = []
+        for i in self.tags.all():
+            tag_list.append(i.name)
+        return tag_list
 
-    def date(self):
-        return self.upload_date.strftime('%b %d %Y')
+    def category(self):
+        return self.typology.name
 
     def __str__(self):
         return self.title

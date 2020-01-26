@@ -5,8 +5,9 @@ from .models import *
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = '__all__'
-        read_only_fields = ('uploader', 'upload_date', 'slug', 'size')
+        fields = ('title', 'author', 'description', 'upload_date', 'megabytes', 'image', 'pdf',
+                  'uploaded_by', 'all_tags', 'category')
+        read_only_fields = ('uploader', 'upload_date', 'size')
 
 
 class TypeSerializer(serializers.ModelSerializer):
