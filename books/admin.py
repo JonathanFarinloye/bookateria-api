@@ -4,7 +4,7 @@ from .models import Document, Tag, Type
 
 
 class BooksAdmin(admin.ModelAdmin):
-    list_display = ('title', 'author', 'downloads', 'slug', 'uploader')
+    list_display = ('title', 'author', 'downloads', 'slug', 'uploader', 'date')
     search_fields = ['title', 'author']
 
 

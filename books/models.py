@@ -37,6 +37,9 @@ class Document(models.Model):
             self.slug = self.slug[:100]
         return super(Document, self).save(*args, **kwargs)
 
+    def uploaded_by(self):
+        return self.uploader.get_username()
+
     def megabytes(self):
         self.size = self.pdf.size
         if self.size < 1024:
@@ -50,11 +53,20 @@ class Document(models.Model):
             message = str(fsize) + ' Mb'
         return message
 
+    def all_tags(self):
+        tag_list = []
+        for i in self.tags.all():
+            tag_list.append(i.name)
+        return tag_list
+
     def summary(self):
         return self.description[:100]
 
     def date(self):
         return self.upload_date.strftime('%b %d %Y')
+
+    def category(self):
+        return self.typology.name
 
     def __str__(self):
         return self.title
