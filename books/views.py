@@ -21,24 +21,8 @@ class DocumentView(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        # tags = []
-        # for x in self.request.POST.getlist('tags'):
-        #     if Tag.objects.filter(pk=x).exists():
-        #         tag = Tag.objects.get(pk=x)
-        #         tags.append(tag)
-        #     else:
-        #         new_list = self.request.POST.get('tags').split(',').strip()
-        #         for i in new_list:
-        #             Tag.objects.create(name=i)
-        #             tag = Tag.objects.get(name__iexact=i)
-        #             tags.append(tag)
-        # user = User.objects.get(pk=self.request.user.pk)
-        # user.profile.points += 6
-        # user.profile.save()
-        # print(tags)
-
+        # Get image for documents without cover.
         if self.request.data['image'] == "":
-
             path = self.request.FILES['pdf']
             image = convert_from_bytes(path.read(), last_page=1)[0]
             image_io = BytesIO()
@@ -48,7 +32,6 @@ class DocumentView(ModelViewSet):
             name = InMemoryUploadedFile(image_io, None, img_name, 'image/jpeg', image_io.tell(), None)
         else:
             name = self.request.data['image']
-
         serializer.save(uploader=self.request.user, upload_date=timezone.datetime.now(), image=name)
 
 

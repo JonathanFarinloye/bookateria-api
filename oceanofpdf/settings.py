@@ -184,7 +184,6 @@ STATIC_URL = os.path.join(BASE_DIR, 'res/')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-
 DEFAULT_FILE_STORAGE = 'oceanofpdf.storages_backends.MediaStorage'
 
 AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')

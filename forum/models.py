@@ -8,6 +8,10 @@ class QuestionTags(models.Model):
     name = models.CharField(max_length=20)
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def save(self, *args, **kwargs):
+        self.name = ' '.join(str(self.name).strip().title().split())
+        return super(QuestionTags, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -21,6 +25,12 @@ class Question(models.Model):
     up_votes = models.ManyToManyField(User, related_name='q_up_voters', through='QUpVotes')
     date_created = models.DateTimeField(auto_now_add=True)
 
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.title = ' '.join(str(self.title).strip().title().split())
+        self.description = ' '.join(str(self.description).strip().capitalize().split())
+        super(Question, self).save()
+
     def __str__(self):
         return self.title[:20]
 
@@ -31,6 +41,10 @@ class Answer(models.Model):
     up_votes = models.ManyToManyField(User, related_name='a_up_voters', through='AUpVotes')
     date_created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, related_name='answer', on_delete=models.PROTECT)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.answer = ' '.join(str(self.answer).strip().title().split())
 
     def __str__(self):
         return 'Answer to - ' + self.question.__str__()
