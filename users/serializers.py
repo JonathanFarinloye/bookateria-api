@@ -14,33 +14,50 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('id', 'username', 'email')
 
 
-class RegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'email', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
+class RegisterSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+    # class Meta:
+    #     model = User
+    #     fields = ('id', 'username', 'email', 'password')
+    #     extra_kwargs = {'password': {'write_only': True}}
 
     def validate(self, data):
         # here data has all the fields which have validated values
         # so we can create a User instance out of it
         user = User(**data)
 
-        # get the password from the data
+        # get information from data
+        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
-
         errors = dict()
-        try:
-            # validate the password and catch the exception
-            validators.validate_password(password=password, user=user)
 
-        # the exception raised here is different than serializers.ValidationError
-        except exceptions.ValidationError as e:
-            errors['password'] = list(e.messages)
+        if username and password and email:
+            if User.objects.filter(email=email).exists() or User.objects.filter(username=username).exists():
+                error = {
+                    'status': False,
+                    'message': 'Email or Username already exists.'
+                }
+                raise serializers.ValidationError(error)
+            else:
+                try:
+                    validators.validate_password(password=password, user=User)
+                except exceptions.ValidationError as e:
+                    errors['password'] = list(e.messages)
 
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return super(RegisterSerializer, self).validate(data)
+                if errors:
+                    raise serializers.ValidationError(errors)
+                else:
+                    return super(RegisterSerializer, self).validate(data)
+        else:
+            error = {
+                'status': False,
+                'message': 'Details not found in request.'
+            }
+            raise serializers.ValidationError(error, code='authorization')
 
     def create(self, validated_data):
         user = User.objects.create_user(

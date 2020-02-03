@@ -6,7 +6,7 @@ router = routers.DefaultRouter()
 
 
 urlpatterns = [
-    path('user', UserAPIView.as_view()),
+    path('user/', UserAPIView.as_view()),
     path('login/', LoginAPIView.as_view(), name='login'),
     path('register/', RegisterAPIView.as_view(), name='register'),
 ]
