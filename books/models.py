@@ -6,6 +6,12 @@ import os
 User = settings.AUTH_USER_MODEL
 
 
+def adjust(self):
+    self.title = ' '.join(str(self.title).strip().title().split())
+    self.author = ' '.join(str(self.author).strip().title().split())
+    self.description = ' '.join(str(self.description).strip().capitalize().split())
+
+
 class Document(models.Model):
 
     def path_and_rename(self, filename):
@@ -23,7 +29,6 @@ class Document(models.Model):
     image = models.ImageField(upload_to='images/', blank=True)
     pdf = models.FileField(upload_to=path_and_rename)
     uploader = models.ForeignKey(User, on_delete=models.PROTECT)
-    # slug = models.SlugField(max_length=255)
     tags = models.ManyToManyField('Tag', blank=True)
     typology = models.ForeignKey('Type', on_delete=models.PROTECT, null=True)
 
@@ -31,10 +36,8 @@ class Document(models.Model):
         ordering = ('title', )
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title + '-' + self.author)
         self.size = self.pdf.size
-        if len(self.slug) >= 100:
-            self.slug = self.slug[:100]
+        adjust(self)
         return super(Document, self).save(*args, **kwargs)
 
     def megabytes(self):
@@ -69,6 +72,10 @@ class Type(models.Model):
     class Meta:
         ordering = ('name', )
 
+    def save(self, *args, **kwargs):
+        self.name = ' '.join(str(self.name).strip().title().split())
+        return super(Type, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -79,6 +86,10 @@ class Tag(models.Model):
     class Meta:
         ordering = ('name', )
 
+    def save(self, *args, **kwargs):
+        self.name = ' '.join(str(self.name).strip().title().split())
+        return super(Tag, self).save(*args, **kwargs)
+
     def __str__(self):
         return self.name
 
@@ -88,6 +99,10 @@ class Request(models.Model):
     author = models.CharField(max_length=255)
     category = models.ForeignKey(Type, related_name='request_category', on_delete=models.PROTECT)
     description = models.TextField(help_text='Anything to help find the document')
+
+    def save(self, *args, **kwargs):
+        adjust(self)
+        return super(Request, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.title
