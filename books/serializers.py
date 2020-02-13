@@ -5,9 +5,10 @@ from .models import *
 class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
-        fields = ('title', 'author', 'description', 'upload_date', 'megabytes', 'image', 'pdf',
-                  'downloads', 'uploaded_by', 'all_tags', 'category')
-        read_only_fields = ('uploader', 'upload_date', 'size')
+        fields = ('id', 'title', 'author', 'description', 'upload_date', 'megabytes', 'image', 'pdf',
+                  'downloads', 'uploaded_by', 'all_tags', 'category', 'typology')
+        read_only_fields = ('id', 'uploader', 'upload_date', 'size')
+        extra_kwargs = {'typology': {'write_only': True}}
 
 
 class TypeSerializer(serializers.ModelSerializer):
