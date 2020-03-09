@@ -8,6 +8,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from pdf2image import convert_from_bytes
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from rest_framework.parsers import JSONParser, FormParser, MultiPartParser
 User = get_user_model()
 
 
@@ -19,6 +20,7 @@ class DocumentView(ModelViewSet):
     search_fields = ('title', 'author', 'description', 'tags__name')
     ordering_fields = ('downloads', 'size', 'title', 'id', 'upload_date')
     permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (FormParser, MultiPartParser, JSONParser)
 
     def perform_create(self, serializer):
         # Get image for documents without cover.
